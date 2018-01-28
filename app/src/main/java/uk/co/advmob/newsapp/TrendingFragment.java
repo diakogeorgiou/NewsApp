@@ -102,7 +102,19 @@ public class TrendingFragment extends Fragment {
         article = new Article();
         article.setTitle("Title 6");
         article.setDate("01/01/2017");
-        article.setAuthor("Ildiko");
+        article.setAuthor("Author 1");
+        articles.add(article);
+
+        article = new Article();
+        article.setTitle("Title 7");
+        article.setDate("01/01/2017");
+        article.setAuthor("Author 2");
+        articles.add(article);
+
+        article = new Article();
+        article.setTitle("Title 8");
+        article.setDate("01/01/2017");
+        article.setAuthor("Author 3");
         articles.add(article);
 
         ArticlesAdapter articlesAdapter = new ArticlesAdapter(getActivity(), articles);
