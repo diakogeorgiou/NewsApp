@@ -11,7 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class ArticlesActivity extends AppCompatActivity implements TrendingFragment.OnFragmentInteractionListener {
+public class ArticlesActivity extends AppCompatActivity implements TrendingFragment.OnFragmentInteractionListener, CategoriesFragment.OnFragmentInteractionListener {
 
     private TextView mTextMessage;
 
@@ -61,7 +61,7 @@ public class ArticlesActivity extends AppCompatActivity implements TrendingFragm
     }
 
     private void categoriesFragment() {
-        Fragment categoriesFragment = new TrendingFragment();
+        Fragment categoriesFragment = new CategoriesFragment();
         getFragmentManager().beginTransaction().replace(
                 R.id.fragment, categoriesFragment)
                 .commit();
