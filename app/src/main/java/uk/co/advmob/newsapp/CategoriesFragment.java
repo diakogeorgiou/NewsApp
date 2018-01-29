@@ -82,8 +82,7 @@ public class CategoriesFragment extends Fragment {
         categories.add(category);
 
         CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity(), categories);
-        ArticlesAdapter articlesAdapter = new ArticlesAdapter(getActivity(), articles);
-        lvArticles.setAdapter(articlesAdapter);
+        lvCategories.setAdapter(categoryAdapter);
     }
 
     @Override
