@@ -21,7 +21,8 @@
         <activity android:name=".WelcomeActivity" />
         <activity
             android:name=".ArticlesActivity"
-            android:label="Articles"></activity>
+            android:label="Articles" />
+        <activity android:name=".ArticleActivity"></activity>
     </application>
 
 </manifest>
