@@ -22,7 +22,10 @@
         <activity
             android:name=".ArticlesActivity"
             android:label="Articles" />
-        <activity android:name=".ArticleActivity"></activity>
+        <activity android:name=".ArticleActivity" />
+        <activity
+            android:name=".NewArticleActivity"
+            android:label="New Article"></activity>
     </application>
 
 </manifest>

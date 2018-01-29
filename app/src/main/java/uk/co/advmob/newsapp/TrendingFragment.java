@@ -1,12 +1,15 @@
 package uk.co.advmob.newsapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -129,6 +132,32 @@ public class TrendingFragment extends Fragment {
         lvArticles = rootView.findViewById(R.id.lvArticles);
 
         getArticles();
+
+        //List click
+        lvArticles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Article article = (Article) lvArticles.getItemAtPosition(position);
+
+                //Show article
+                Intent articleActivity = new Intent(TrendingFragment.this.getActivity(), ArticleActivity.class);
+                articleActivity.putExtra("article", article);
+
+                startActivity(articleActivity);
+            }
+        });
+
+        //Floating action button
+        FloatingActionButton fab = rootView.findViewById(R.id.floatingActionButton);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Launch new track activity
+                Intent newArticle = new Intent(TrendingFragment.this.getContext(), NewArticleActivity.class);
+                startActivity(newArticle);
+            }
+        });
 
         return rootView;
     }
