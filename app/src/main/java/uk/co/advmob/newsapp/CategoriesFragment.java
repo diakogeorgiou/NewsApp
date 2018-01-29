@@ -7,6 +7,9 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -24,6 +27,9 @@ public class CategoriesFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
+
+    private ListView lvCategories;
+
     private String mParam1;
     private String mParam2;
 
@@ -60,11 +66,36 @@ public class CategoriesFragment extends Fragment {
         }
     }
 
+    private void getCategories(){
+        ArrayList<String> categories = new ArrayList<>();
+
+        String category = new String("Category 1");
+        categories.add(category);
+
+        category = new String("Category 2");
+        categories.add(category);
+
+        category = new String("Category 3");
+        categories.add(category);
+
+        category = new String("Category 4");
+        categories.add(category);
+
+        CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity(), categories);
+        ArticlesAdapter articlesAdapter = new ArticlesAdapter(getActivity(), articles);
+        lvArticles.setAdapter(articlesAdapter);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_categories, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_trending, container, false);
+
+        lvCategories = rootView.findViewById(R.id.lvCategories);
+
+        getCategories();
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

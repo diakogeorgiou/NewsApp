@@ -25,6 +25,7 @@ public class ArticlesActivity extends AppCompatActivity implements TrendingFragm
                     trendingFragment();
                     return true;
                 case R.id.navigation_categories:
+                    categoriesFragment();
                     return true;
                 case R.id.navigation_read_later:
                     return true;
@@ -53,12 +54,18 @@ public class ArticlesActivity extends AppCompatActivity implements TrendingFragm
     }
 
     private void trendingFragment() {
-        Fragment newFragment = new TrendingFragment();
+        Fragment trendingFragment = new TrendingFragment();
         getFragmentManager().beginTransaction().replace(
-                R.id.fragment, newFragment)
+                R.id.fragment, trendingFragment)
                 .commit();
     }
 
+    private void categoriesFragment() {
+        Fragment categoriesFragment = new TrendingFragment();
+        getFragmentManager().beginTransaction().replace(
+                R.id.fragment, categoriesFragment)
+                .commit();
+    }
 
     @Override
     public void onFragmentInteraction(Uri uri) {

@@ -14,24 +14,24 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ArticlesAdapter extends BaseAdapter {
-    private ArrayList<Article> articles;
+public class CategoryAdapter extends BaseAdapter {
+    private ArrayList<String> categories;
     Context context;
 
     private LayoutInflater mInflater;
 
-    public ArticlesAdapter(Context context, ArrayList<Article> articles) {
-        this.articles = articles;
+    public CategoryAdapter(Context context, ArrayList<String> categories) {
+        this.categories = categories;
         mInflater = LayoutInflater.from(context);
         this.context = context;
     }
 
     public int getCount() {
-        return articles.size();
+        return categories.size();
     }
 
     public Object getItem(int position) {
-        return articles.get(position);
+        return categories.get(position);
     }
 
     public long getItemId(int position) {
@@ -43,12 +43,10 @@ public class ArticlesAdapter extends BaseAdapter {
         ViewHolder holder;
 
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.article_row_view, null);
+            convertView = mInflater.inflate(R.layout.categories_row_view, null);
             holder = new ViewHolder();
 
-            holder.txtTitle = (TextView) convertView.findViewById(R.id.txtTitle);
-            holder.txtDate = (TextView) convertView.findViewById(R.id.txtDate);
-            holder.txtAuthor = (TextView) convertView.findViewById(R.id.txtAuthor);
+            holder.txtCategory = (TextView) convertView.findViewById(R.id.txtCategory);
 
             convertView.setTag(holder);
         } else {
@@ -56,16 +54,12 @@ public class ArticlesAdapter extends BaseAdapter {
         }
 
         //Label values
-        holder.txtTitle.setText(articles.get(position).getTitle());
-        holder.txtDate.setText(articles.get(position).getDate());
-        holder.txtAuthor.setText(articles.get(position).getAuthor());
+        holder.txtCategory.setText(categories.get(position));
 
         return convertView;
     }
 
     static class ViewHolder {
-        TextView txtTitle;
-        TextView txtDate;
-        TextView txtAuthor;
+        TextView txtCategory;
     }
 }
