@@ -1,6 +1,7 @@
 package uk.co.advmob.newsapp;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ArticlesActivity extends AppCompatActivity implements TrendingFragment.OnFragmentInteractionListener, CategoriesFragment.OnFragmentInteractionListener {
 
@@ -39,6 +41,19 @@ public class ArticlesActivity extends AppCompatActivity implements TrendingFragm
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.articles_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id==R.id.menu_user_profile) {
+            Intent profileActivity = new Intent(ArticlesActivity.this, ProfileActivity.class);
+            startActivity(profileActivity);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

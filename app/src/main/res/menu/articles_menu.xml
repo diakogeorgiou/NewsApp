@@ -3,6 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/menu_user_profile"
+        android:icon="@drawable/ic_action_account_circle"
+        android:title="User profile"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/mn_search"
         android:icon="@android:drawable/ic_menu_search"
         android:title="Search"
