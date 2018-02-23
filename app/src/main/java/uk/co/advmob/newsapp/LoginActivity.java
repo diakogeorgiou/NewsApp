@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
@@ -27,15 +29,25 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Please enter your username and password", Toast.LENGTH_SHORT).show();
                 } else {
                     //Login
-                    new ApiConnection(getApplicationContext()).getArticles(new ApiCallback() {
+                    new ApiConnection(getApplicationContext()).login(etUsername.getText().toString(), etPassword.getText().toString(), new ApiCallback() {
                         @Override
                         public void onSuccessResponse(JSONObject jsonObject) {
-                            jsonObject.toString();
+                            //Convert json to response object
+                            Response response = new Gson().fromJson(jsonObject.toString(), Response.class);
+
+                            if (response.isError()) {
+                                Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+                            } else {
+                                setResult(RESULT_OK);
+                                finish();
+
+                                Toast.makeText(LoginActivity.this, "You are logged in as " + response.getDataObject(), Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
 
-                    setResult(RESULT_OK);
-                    finish();
+//
+//                    finish();
                 }
             }
         });

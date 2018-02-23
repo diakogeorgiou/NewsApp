@@ -9,6 +9,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -20,6 +21,36 @@ public class ApiConnection {
 
     public ApiConnection(Context context) {
         this.context = context;
+    }
+
+    public void login(String email, String password, final ApiCallback apiCallback) {
+        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+
+        //Create JSON Object
+        JSONObject request = new JSONObject();
+        try {
+            request.put("email", email);
+            request.put("password", password);
+        } catch (Exception e) {
+
+        }
+
+        JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST, "http://newsapi.dkode.co.uk/login", request,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        apiCallback.onSuccessResponse(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Error message
+                return;
+            }
+        });
+
+        mRequestQueue.add(mJsonObjectRequest);
     }
 
     public void getArticles(final ApiCallback apiCallback) {
@@ -41,6 +72,5 @@ public class ApiConnection {
         });
 
         mRequestQueue.add(mJsonObjectRequest);
-
     }
 }
