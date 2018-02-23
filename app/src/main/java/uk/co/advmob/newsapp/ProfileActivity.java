@@ -3,6 +3,8 @@ package uk.co.advmob.newsapp;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import org.json.JSONObject;
+
 public class ProfileActivity extends AppCompatActivity {
 
     @Override

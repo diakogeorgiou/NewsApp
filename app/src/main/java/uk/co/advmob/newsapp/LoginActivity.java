@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 public class LoginActivity extends AppCompatActivity {
 
     @Override
@@ -24,6 +26,14 @@ public class LoginActivity extends AppCompatActivity {
                 if (etUsername.getText().toString().equals("") || etPassword.getText().toString().equals("")) {
                     Toast.makeText(LoginActivity.this, "Please enter your username and password", Toast.LENGTH_SHORT).show();
                 } else {
+                    //Login
+                    new ApiConnection(getApplicationContext()).getArticles(new ApiCallback() {
+                        @Override
+                        public void onSuccessResponse(JSONObject jsonObject) {
+                            jsonObject.toString();
+                        }
+                    });
+
                     setResult(RESULT_OK);
                     finish();
                 }
