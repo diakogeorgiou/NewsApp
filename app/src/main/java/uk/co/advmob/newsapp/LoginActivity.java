@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 
 import org.json.JSONObject;
 
@@ -41,7 +42,9 @@ public class LoginActivity extends AppCompatActivity {
                                 setResult(RESULT_OK);
                                 finish();
 
-                                Toast.makeText(LoginActivity.this, "You are logged in as " + response.getDataObject(), Toast.LENGTH_SHORT).show();
+                                LinkedTreeMap<String, String> data = (LinkedTreeMap<String, String>) response.getDataObject();
+                                String email = data.get("email");
+                                Toast.makeText(LoginActivity.this, "You are logged in as " + email, Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
