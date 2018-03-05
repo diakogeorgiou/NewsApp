@@ -1,11 +1,33 @@
 package uk.co.advmob.newsapp;
 
 public abstract class User {
+    private int id;
     private String username;
     private String password;
     private String email;
     private String fullName;
     private String profilePicture;
+
+    public User(int id, String username, String password, String email, String fullName, String profilePicture) {
+        setId(id);
+        setUsername(username);
+        setPassword(password);
+        setEmail(email);
+        setFullName(fullName);
+        setProfilePicture(profilePicture);
+    }
+
+    public User() {
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;

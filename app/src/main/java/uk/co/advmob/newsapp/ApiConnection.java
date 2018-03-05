@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -107,6 +108,56 @@ public class ApiConnection {
         progressDialog.show();
     }
 
+    //Create article
+    public void createArticle(Article article, final ApiCallback apiCallback) {
+        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+
+//        //Create JSON Object
+//        JSONObject request = new JSONObject();
+//        try {
+//            request.put("title", title);
+//            request.put("image", getImageString(image));
+//            request.put("content", content);
+//            request.put("author", author);
+//            request.put("category", new Gson().toJson(category).toString());
+//        } catch (Exception e) {
+//
+//        }
+
+        JSONObject request = null;
+        try {
+            request = new JSONObject(new Gson().toJson(article));
+        } catch (Exception e) {
+
+        }
+
+
+        JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST, "http://newsapi.dkode.co.uk/articles", request,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressDialog.dismiss();
+                        apiCallback.onSuccessResponse(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+                //Error message
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                return;
+            }
+        });
+
+        mRequestQueue.add(mJsonObjectRequest);
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+    }
+
+    //Get articles
     public void getArticles(final ApiCallback apiCallback) {
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
 
@@ -128,37 +179,37 @@ public class ApiConnection {
         mRequestQueue.add(mJsonObjectRequest);
     }
 
-    public void uploadUserImage(final Bitmap bitmap) {
-        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+//    public void uploadUserImage(final Bitmap bitmap) {
+//        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+//
+//        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://newsapi.dkode.co.uk/upload", new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                Log.i("Myresponse", "" + response);
+//                Toast.makeText(context, "" + response, Toast.LENGTH_SHORT).show();
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.i("Mysmart", "" + error);
+//                Toast.makeText(context, "" + error, Toast.LENGTH_SHORT).show();
+//            }
+//        }) {
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> param = new HashMap<>();
+//
+//                String images = getImageString(bitmap);
+//                Log.i("Mynewsam", "" + images);
+//                param.put("image", images);
+//                return param;
+//            }
+//        };
+//
+//        mRequestQueue.add(stringRequest);
+//    }
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://newsapi.dkode.co.uk/upload", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.i("Myresponse", "" + response);
-                Toast.makeText(context, "" + response, Toast.LENGTH_SHORT).show();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i("Mysmart", "" + error);
-                Toast.makeText(context, "" + error, Toast.LENGTH_SHORT).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> param = new HashMap<>();
-
-                String images = getImageString(bitmap);
-                Log.i("Mynewsam", "" + images);
-                param.put("image", images);
-                return param;
-            }
-        };
-
-        mRequestQueue.add(stringRequest);
-    }
-
-    private String getImageString(Bitmap bitmap) {
+    public static String getImageString(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
         byte[] bt = stream.toByteArray();

@@ -58,7 +58,7 @@ public class ArticlesAdapter extends BaseAdapter {
         //Label values
         holder.txtTitle.setText(articles.get(position).getTitle());
         holder.txtDate.setText(articles.get(position).getDate());
-        holder.txtAuthor.setText(articles.get(position).getAuthor());
+        holder.txtAuthor.setText(articles.get(position).getAuthor().getUsername());
 
         return convertView;
     }

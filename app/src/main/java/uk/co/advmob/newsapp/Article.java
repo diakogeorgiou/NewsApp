@@ -6,11 +6,22 @@ import java.io.Serializable;
  * Created by User on 28/01/2018.
  */
 
-public class Article implements Serializable{
+public class Article implements Serializable {
+    private int id;
     private String title;
     private String date;
-    private String author;
-    private String body;
+    private String image;
+    private String content;
+    private Journalist author;
+    private Category category;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -28,19 +39,35 @@ public class Article implements Serializable{
         this.date = date;
     }
 
-    public String getAuthor() {
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Journalist getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Journalist author) {
         this.author = author;
     }
 
-    public String getBody() {
-        return body;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

@@ -75,49 +75,49 @@ public class TrendingFragment extends Fragment {
         Article article = new Article();
         article.setTitle("Title 1");
         article.setDate("01/01/2017");
-        article.setAuthor("Kostas");
+        article.setAuthor(new Journalist(1, "Kostas", "", "", "", ""));
         articles.add(article);
 
         article = new Article();
         article.setTitle("Title 2");
         article.setDate("01/01/2017");
-        article.setAuthor("JJ");
+        article.setAuthor(new Journalist(2, "JJ", "", "", "", ""));
         articles.add(article);
 
         article = new Article();
         article.setTitle("Title 3");
         article.setDate("01/01/2017");
-        article.setAuthor("Ildiko");
+        article.setAuthor(new Journalist(3, "Ildiko", "", "", "", ""));
         articles.add(article);
 
         article = new Article();
         article.setTitle("Title 4");
         article.setDate("01/01/2017");
-        article.setAuthor("JJ");
+        article.setAuthor(new Journalist(3, "Ildiko", "", "", "", ""));
         articles.add(article);
 
         article = new Article();
         article.setTitle("Title 5");
         article.setDate("01/01/2017");
-        article.setAuthor("Kostas");
+        article.setAuthor(new Journalist(2, "JJ", "", "", "", ""));
         articles.add(article);
 
         article = new Article();
         article.setTitle("Title 6");
         article.setDate("01/01/2017");
-        article.setAuthor("Author 1");
+        article.setAuthor(new Journalist(4, "Author 1", "", "", "", ""));
         articles.add(article);
 
         article = new Article();
         article.setTitle("Title 7");
         article.setDate("01/01/2017");
-        article.setAuthor("Author 2");
+        article.setAuthor(new Journalist(5, "Author 2", "", "", "", ""));
         articles.add(article);
 
         article = new Article();
         article.setTitle("Title 8");
         article.setDate("01/01/2017");
-        article.setAuthor("Author 3");
+        article.setAuthor(new Journalist(6, "Author 3", "", "", "", ""));
         articles.add(article);
 
         ArticlesAdapter articlesAdapter = new ArticlesAdapter(getActivity(), articles);
