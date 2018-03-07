@@ -1,6 +1,8 @@
 package uk.co.advmob.newsapp;
 
-public abstract class User {
+import java.io.Serializable;
+
+public abstract class User implements Serializable {
     private int id;
     private String username;
     private String password;

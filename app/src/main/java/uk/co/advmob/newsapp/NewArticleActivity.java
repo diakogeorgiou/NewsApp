@@ -11,27 +11,58 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NewArticleActivity extends AppCompatActivity {
     ImageView imgArticleImage;
     TextView txtTitle;
     TextView txtContent;
+    Spinner spCategories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_article);
+
+        spCategories = findViewById(R.id.spCategories);
+
+        //Get categories
+        new ApiConnection(this).getCategories(new ApiCallback() {
+            @Override
+            public void onSuccessResponse(JSONObject jsonObject) {
+                try {
+                    Type listType = new TypeToken<List<Category>>() {
+                    }.getType();
+
+                    //Convert dataObject to Category object
+                    JSONArray jsonArray = jsonObject.getJSONArray("dataObject");
+                    ArrayList<Category> categories = new Gson().fromJson(String.valueOf(jsonArray), listType);
+
+                    CategoryAdapter categoryAdapter = new CategoryAdapter(NewArticleActivity.this, categories);
+                    spCategories.setAdapter(categoryAdapter);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         imgArticleImage = findViewById(R.id.imgArticleImage);
         txtTitle = findViewById(R.id.txtTitle);
@@ -66,13 +97,13 @@ public class NewArticleActivity extends AppCompatActivity {
             BitmapDrawable drawable = (BitmapDrawable) imgArticleImage.getDrawable();
             Bitmap image = drawable.getBitmap();
 
+            //Need to be changed using a singleton
             Journalist journalist = new Journalist();
             journalist.setId(7);
             journalist.setUsername("Author 1");
 
-            Category category = new Category();
-            category.setId(2);
-            category.setDescription("World");
+            //Get category from spinner
+            Category category = (Category) spCategories.getSelectedItem();
 
             Article article = new Article();
             article.setTitle(txtTitle.getText().toString());

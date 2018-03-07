@@ -179,6 +179,35 @@ public class ApiConnection {
         mRequestQueue.add(mJsonObjectRequest);
     }
 
+    //Get categories
+    public void getCategories(final ApiCallback apiCallback) {
+        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+
+        JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET, "http://newsapi.dkode.co.uk/categories", null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressDialog.dismiss();
+                        apiCallback.onSuccessResponse(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Error message
+                progressDialog.dismiss();
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                return;
+            }
+        });
+
+        mRequestQueue.add(mJsonObjectRequest);
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+    }
+
 //    public void uploadUserImage(final Bitmap bitmap) {
 //        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
 //

@@ -12,7 +12,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -69,59 +78,26 @@ public class TrendingFragment extends Fragment {
         }
     }
 
-    private void getArticles(){
-        ArrayList<Article> articles = new ArrayList<>();
+    private void getArticles() {
+        new ApiConnection(getActivity()).getArticles(new ApiCallback() {
+            @Override
+            public void onSuccessResponse(JSONObject jsonObject) {
+                try {
+                    Type listType = new TypeToken<List<Article>>() {
+                    }.getType();
 
-        Article article = new Article();
-        article.setTitle("Title 1");
-        article.setDate("01/01/2017");
-        article.setAuthor(new Journalist(1, "Kostas", "", "", "", ""));
-        articles.add(article);
+                    //Convert dataObject to Category object
+                    JSONArray jsonArray = jsonObject.getJSONArray("dataObject");
+                    ArrayList<Article> articles = new Gson().fromJson(String.valueOf(jsonArray), listType);
 
-        article = new Article();
-        article.setTitle("Title 2");
-        article.setDate("01/01/2017");
-        article.setAuthor(new Journalist(2, "JJ", "", "", "", ""));
-        articles.add(article);
+                    ArticlesAdapter articlesAdapter = new ArticlesAdapter(getActivity(), articles);
+                    lvArticles.setAdapter(articlesAdapter);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-        article = new Article();
-        article.setTitle("Title 3");
-        article.setDate("01/01/2017");
-        article.setAuthor(new Journalist(3, "Ildiko", "", "", "", ""));
-        articles.add(article);
-
-        article = new Article();
-        article.setTitle("Title 4");
-        article.setDate("01/01/2017");
-        article.setAuthor(new Journalist(3, "Ildiko", "", "", "", ""));
-        articles.add(article);
-
-        article = new Article();
-        article.setTitle("Title 5");
-        article.setDate("01/01/2017");
-        article.setAuthor(new Journalist(2, "JJ", "", "", "", ""));
-        articles.add(article);
-
-        article = new Article();
-        article.setTitle("Title 6");
-        article.setDate("01/01/2017");
-        article.setAuthor(new Journalist(4, "Author 1", "", "", "", ""));
-        articles.add(article);
-
-        article = new Article();
-        article.setTitle("Title 7");
-        article.setDate("01/01/2017");
-        article.setAuthor(new Journalist(5, "Author 2", "", "", "", ""));
-        articles.add(article);
-
-        article = new Article();
-        article.setTitle("Title 8");
-        article.setDate("01/01/2017");
-        article.setAuthor(new Journalist(6, "Author 3", "", "", "", ""));
-        articles.add(article);
-
-        ArticlesAdapter articlesAdapter = new ArticlesAdapter(getActivity(), articles);
-        lvArticles.setAdapter(articlesAdapter);
+            }
+        });
     }
 
     @Override

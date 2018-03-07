@@ -15,12 +15,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class CategoryAdapter extends BaseAdapter {
-    private ArrayList<String> categories;
+    private ArrayList<Category> categories;
     Context context;
 
     private LayoutInflater mInflater;
 
-    public CategoryAdapter(Context context, ArrayList<String> categories) {
+    public CategoryAdapter(Context context, ArrayList<Category> categories) {
         this.categories = categories;
         mInflater = LayoutInflater.from(context);
         this.context = context;
@@ -54,7 +54,7 @@ public class CategoryAdapter extends BaseAdapter {
         }
 
         //Label values
-        holder.txtCategory.setText(categories.get(position));
+        holder.txtCategory.setText(categories.get(position).getDescription());
 
         return convertView;
     }

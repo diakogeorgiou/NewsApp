@@ -9,7 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -66,23 +75,25 @@ public class CategoriesFragment extends Fragment {
         }
     }
 
-    private void getCategories(){
-        ArrayList<String> categories = new ArrayList<>();
+    private void getCategories() {
+        new ApiConnection(getActivity()).getCategories(new ApiCallback() {
+            @Override
+            public void onSuccessResponse(JSONObject jsonObject) {
+                try {
+                    Type listType = new TypeToken<List<Category>>() {
+                    }.getType();
 
-        String category = new String("Category 1");
-        categories.add(category);
+                    //Convert dataObject to Category object
+                    JSONArray jsonArray = jsonObject.getJSONArray("dataObject");
+                    ArrayList<Category> categories = new Gson().fromJson(String.valueOf(jsonArray), listType);
 
-        category = new String("Category 2");
-        categories.add(category);
-
-        category = new String("Category 3");
-        categories.add(category);
-
-        category = new String("Category 4");
-        categories.add(category);
-
-        CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity(), categories);
-        lvCategories.setAdapter(categoryAdapter);
+                    CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity(), categories);
+                    lvCategories.setAdapter(categoryAdapter);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
