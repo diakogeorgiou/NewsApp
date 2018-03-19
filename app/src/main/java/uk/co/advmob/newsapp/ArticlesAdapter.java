@@ -10,7 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -46,19 +49,25 @@ public class ArticlesAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.article_row_view, null);
             holder = new ViewHolder();
 
-            holder.txtTitle = (TextView) convertView.findViewById(R.id.txtTitle);
-            holder.txtDate = (TextView) convertView.findViewById(R.id.txtDate);
-            holder.txtAuthor = (TextView) convertView.findViewById(R.id.txtAuthor);
+            holder.txtTitle = convertView.findViewById(R.id.txtTitle);
+            holder.txtDate = convertView.findViewById(R.id.txtDate);
+            holder.txtAuthor = convertView.findViewById(R.id.txtAuthor);
+            holder.txtCategory = convertView.findViewById(R.id.txtCategory);
+            holder.imgArticleImage = convertView.findViewById(R.id.imgArticleImage);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        //Label values
+        //Label values and image
         holder.txtTitle.setText(articles.get(position).getTitle());
         holder.txtDate.setText(articles.get(position).getDate());
         holder.txtAuthor.setText(articles.get(position).getAuthor().getFullName());
+        holder.txtCategory.setText(articles.get(position).getCategory().getDescription());
+        Picasso.with(context)
+                .load("http://newsapi.dkode.co.uk/uploads/" + articles.get(position).getImage())
+                .into(holder.imgArticleImage);
 
         return convertView;
     }
@@ -67,5 +76,7 @@ public class ArticlesAdapter extends BaseAdapter {
         TextView txtTitle;
         TextView txtDate;
         TextView txtAuthor;
+        TextView txtCategory;
+        ImageView imgArticleImage;
     }
 }

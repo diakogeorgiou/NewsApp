@@ -35,7 +35,7 @@ public class SignupActivity extends AppCompatActivity {
         final TextView etRepeatPassword = findViewById(R.id.etRepeatPassword);
         final TextView etFullName = findViewById(R.id.etFullName);
         final CheckBox cbJournalist = findViewById(R.id.cbJournalist);
-        final ImageView imgProfile = findViewById(R.id.imgProfile);
+        final ImageView imgProfile = findViewById(R.id.imgviewProfileimage);
 
         //Save
         Button btnSave = findViewById(R.id.btnSave);
@@ -110,7 +110,7 @@ public class SignupActivity extends AppCompatActivity {
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
 
-                ImageView imgProfile = findViewById(R.id.imgProfile);
+                ImageView imgProfile = findViewById(R.id.imgviewProfileimage);
                 imgProfile.setImageBitmap(selectedImage);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

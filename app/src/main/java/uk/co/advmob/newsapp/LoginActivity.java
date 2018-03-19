@@ -7,9 +7,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
-
 import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
@@ -30,27 +27,34 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Please enter your username and password", Toast.LENGTH_SHORT).show();
                 } else {
                     //Login
-                    new ApiConnection(getApplicationContext()).login(etUsername.getText().toString(), etPassword.getText().toString(), new ApiCallback() {
+                    new ApiConnection(LoginActivity.this).login(etUsername.getText().toString(), etPassword.getText().toString(), new ApiCallback() {
                         @Override
                         public void onSuccessResponse(JSONObject jsonObject) {
                             //Convert json to response object
-                            Response response = new Gson().fromJson(jsonObject.toString(), Response.class);
 
-                            if (response.isError()) {
-                                Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
-                            } else {
-                                setResult(RESULT_OK);
-                                finish();
+                            try {
+                                if (jsonObject.getBoolean("error")) {
+                                    Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    JSONObject response = jsonObject.getJSONObject("dataObject");
+                                    setResult(RESULT_OK);
+                                    finish();
 
-                                LinkedTreeMap<String, String> data = (LinkedTreeMap<String, String>) response.getDataObject();
-                                String email = data.get("email");
-                                Toast.makeText(LoginActivity.this, "You are logged in as " + email, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "You are logged in as " + response.getString("email"), Toast.LENGTH_SHORT).show();
+
+                                    //Set user in singleton
+                                    SingleSignOn.setUser_id(response.getInt("id"));
+                                    SingleSignOn.setEmail(etUsername.getText().toString());
+                                    SingleSignOn.setPassword(etPassword.getText().toString());
+                                    SingleSignOn.setFullName(response.getString("fullName"));
+                                    SingleSignOn.setUserType(response.getString("userType"));
+                                    SingleSignOn.setProfilePicture(response.getString("profilePicture"));
+                                }
+                            } catch (Exception e) {
+
                             }
                         }
                     });
-
-//
-//                    finish();
                 }
             }
         });

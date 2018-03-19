@@ -1,17 +1,15 @@
 package uk.co.advmob.newsapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.TabLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -28,27 +26,26 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link CategoriesFragment.OnFragmentInteractionListener} interface
+ * {@link ReadLaterFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link CategoriesFragment#newInstance} factory method to
+ * Use the {@link ReadLaterFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CategoriesFragment extends Fragment {
+public class ReadLaterFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-
-    private ListView lvCategories;
+    private ListView lvArticles;
 
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
-    public CategoriesFragment() {
+    public ReadLaterFragment() {
         // Required empty public constructor
     }
 
@@ -58,11 +55,11 @@ public class CategoriesFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CategoriesFragment.
+     * @return A new instance of fragment ReadLaterFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CategoriesFragment newInstance(String param1, String param2) {
-        CategoriesFragment fragment = new CategoriesFragment();
+    public static ReadLaterFragment newInstance(String param1, String param2) {
+        ReadLaterFragment fragment = new ReadLaterFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -79,23 +76,24 @@ public class CategoriesFragment extends Fragment {
         }
     }
 
-    private void getCategories() {
-        new ApiConnection(getActivity()).getCategories(new ApiCallback() {
+    private void getReadLaterArticles() {
+        new ApiConnection(getActivity()).getReadLaterArticles(SingleSignOn.getUser_id(), new ApiCallback() {
             @Override
             public void onSuccessResponse(JSONObject jsonObject) {
                 try {
-                    Type listType = new TypeToken<List<Category>>() {
+                    Type listType = new TypeToken<List<Article>>() {
                     }.getType();
 
-                    //Convert dataObject to Category object
+                    //Convert dataObject to Article object
                     JSONArray jsonArray = jsonObject.getJSONArray("dataObject");
-                    ArrayList<Category> categories = new Gson().fromJson(String.valueOf(jsonArray), listType);
+                    ArrayList<Article> articles = new Gson().fromJson(String.valueOf(jsonArray), listType);
 
-                    CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity(), categories);
-                    lvCategories.setAdapter(categoryAdapter);
+                    ArticlesAdapter articlesAdapter = new ArticlesAdapter(getActivity(), articles);
+                    lvArticles.setAdapter(articlesAdapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
             }
         });
     }
@@ -103,23 +101,23 @@ public class CategoriesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_categories, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_trending, container, false);
 
-        lvCategories = rootView.findViewById(R.id.lvCategories);
+        lvArticles = rootView.findViewById(R.id.lvArticles);
 
-        getCategories();
+        getReadLaterArticles();
 
         //List click
-        lvCategories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvArticles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Category category = (Category) lvCategories.getItemAtPosition(position);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Article article = (Article) lvArticles.getItemAtPosition(position);
 
-                Toast.makeText(getContext(), category.getDescription(), Toast.LENGTH_SHORT).show();
+                //Show article
+                Intent articleActivity = new Intent(ReadLaterFragment.this.getActivity(), ArticleActivity.class);
+                articleActivity.putExtra("article", article);
 
-                //Change Tab
-                BottomNavigationView bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation);
-                bottomNavigationView.setSelectedItemId(R.id.navigation_trending);
+                startActivity(articleActivity);
             }
         });
 

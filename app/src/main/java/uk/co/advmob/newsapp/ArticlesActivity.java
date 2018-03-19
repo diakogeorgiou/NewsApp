@@ -13,7 +13,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ArticlesActivity extends AppCompatActivity implements TrendingFragment.OnFragmentInteractionListener, CategoriesFragment.OnFragmentInteractionListener {
+public class ArticlesActivity extends AppCompatActivity implements TrendingFragment.OnFragmentInteractionListener,
+        CategoriesFragment.OnFragmentInteractionListener, ReadLaterFragment.OnFragmentInteractionListener {
 
     private TextView mTextMessage;
 
@@ -30,6 +31,7 @@ public class ArticlesActivity extends AppCompatActivity implements TrendingFragm
                     categoriesFragment();
                     return true;
                 case R.id.navigation_read_later:
+                    readLaterFragment();
                     return true;
             }
             return false;
@@ -79,6 +81,13 @@ public class ArticlesActivity extends AppCompatActivity implements TrendingFragm
         Fragment categoriesFragment = new CategoriesFragment();
         getFragmentManager().beginTransaction().replace(
                 R.id.fragment, categoriesFragment)
+                .commit();
+    }
+
+    private void readLaterFragment() {
+        Fragment readLaterFragment = new ReadLaterFragment();
+        getFragmentManager().beginTransaction().replace(
+                R.id.fragment, readLaterFragment)
                 .commit();
     }
 

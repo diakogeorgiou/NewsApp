@@ -15,7 +15,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/imageView7"
+                android:id="@+id/imgArticleImage"
                 android:layout_width="0dp"
                 android:layout_height="140dp"
                 android:layout_marginEnd="16dp"
@@ -61,7 +61,7 @@
                 android:text="txtDate"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+                app:layout_constraintTop_toBottomOf="@+id/imgArticleImage" />
 
             <TextView
                 android:id="@+id/txtAuthor"
@@ -72,7 +72,7 @@
                 android:text="txtAuthor"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+                app:layout_constraintTop_toBottomOf="@+id/imgArticleImage" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 

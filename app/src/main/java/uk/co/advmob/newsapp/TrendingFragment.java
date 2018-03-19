@@ -6,11 +6,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -107,6 +111,8 @@ public class TrendingFragment extends Fragment {
 
         lvArticles = rootView.findViewById(R.id.lvArticles);
 
+        registerForContextMenu(lvArticles);
+
         getArticles();
 
         //List click
@@ -126,6 +132,10 @@ public class TrendingFragment extends Fragment {
         //Floating action button
         FloatingActionButton fab = rootView.findViewById(R.id.floatingActionButton);
 
+        //Enable float button if the user is a journalist.
+        if (SingleSignOn.getUserType().toString().equals("JOURNALIST"))
+            fab.setVisibility(View.VISIBLE);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,6 +146,43 @@ public class TrendingFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.articles_context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
+                .getMenuInfo();
+
+        switch (item.getItemId()) {
+            case R.id.menu_read_later:
+                //Get article
+                Article article = (Article) lvArticles.getItemAtPosition(info.position);
+
+                //Read later request
+                new ApiConnection(getActivity()).readLater(article.getId(), SingleSignOn.getUser_id(), new ApiCallback() {
+                    @Override
+                    public void onSuccessResponse(JSONObject jsonObject) {
+                        try {
+                            if (jsonObject.getBoolean("error")) {
+                                Toast.makeText(getActivity(), jsonObject.getString("errorMessage"), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getActivity(), "Article saved for later.", Toast.LENGTH_LONG).show();
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -55,17 +55,142 @@ public class ApiConnection {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        progressDialog.dismiss();
                         apiCallback.onSuccessResponse(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //Error message
+                progressDialog.dismiss();
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+
                 return;
             }
         });
 
         mRequestQueue.add(mJsonObjectRequest);
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+    }
+
+    //Report fake article
+    public void reportFake(int article_id, int user_id, final ApiCallback apiCallback) {
+        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+
+        //Create JSON Object
+        JSONObject request = new JSONObject();
+        try {
+            request.put("user_id", user_id);
+            request.put("article_id", article_id);
+        } catch (Exception e) {
+
+        }
+
+        JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST, "http://newsapi.dkode.co.uk/fake_articles", request,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressDialog.dismiss();
+                        apiCallback.onSuccessResponse(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Error message
+                progressDialog.dismiss();
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                return;
+            }
+        });
+
+        mRequestQueue.add(mJsonObjectRequest);
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+    }
+
+    //Like an article
+    public void likeArticle(int article_id, int user_id, final ApiCallback apiCallback) {
+        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+
+        //Create JSON Object
+        JSONObject request = new JSONObject();
+        try {
+            request.put("user_id", user_id);
+            request.put("article_id", article_id);
+        } catch (Exception e) {
+
+        }
+
+        JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST, "http://newsapi.dkode.co.uk/like_articles", request,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressDialog.dismiss();
+                        apiCallback.onSuccessResponse(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Error message
+                progressDialog.dismiss();
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                return;
+            }
+        });
+
+        mRequestQueue.add(mJsonObjectRequest);
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+    }
+
+    //Read article later save
+    public void readLater(int article_id, int user_id, final ApiCallback apiCallback) {
+        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+
+        //Create JSON Object
+        JSONObject request = new JSONObject();
+        try {
+            request.put("user_id", user_id);
+            request.put("article_id", article_id);
+        } catch (Exception e) {
+
+        }
+
+        JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST, "http://newsapi.dkode.co.uk/read_later", request,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressDialog.dismiss();
+                        apiCallback.onSuccessResponse(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Error message
+                progressDialog.dismiss();
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                return;
+            }
+        });
+
+        mRequestQueue.add(mJsonObjectRequest);
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
     }
 
     //Register
@@ -96,6 +221,7 @@ public class ApiConnection {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressDialog.dismiss();
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
                 //Error message
                 return;
             }
@@ -166,17 +292,82 @@ public class ApiConnection {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        progressDialog.dismiss();
                         apiCallback.onSuccessResponse(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
                 //Error message
                 return;
             }
         });
 
         mRequestQueue.add(mJsonObjectRequest);
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+    }
+
+    //Get articles
+    public void getReadLaterArticles(int user_id, final ApiCallback apiCallback) {
+        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+
+        JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET, "http://newsapi.dkode.co.uk/read_later/" + String.valueOf(user_id), null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressDialog.dismiss();
+                        apiCallback.onSuccessResponse(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                //Error message
+                return;
+            }
+        });
+
+        mRequestQueue.add(mJsonObjectRequest);
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+    }
+
+    //Get random quote of the day
+    public void getQuote(final ApiCallback apiCallback) {
+        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+
+        JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET, "http://newsapi.dkode.co.uk/quotes", null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressDialog.dismiss();
+                        apiCallback.onSuccessResponse(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                //Error message
+                return;
+            }
+        });
+
+        mRequestQueue.add(mJsonObjectRequest);
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
     }
 
     //Get categories
@@ -208,35 +399,47 @@ public class ApiConnection {
         progressDialog.show();
     }
 
-//    public void uploadUserImage(final Bitmap bitmap) {
-//        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
-//
-//        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://newsapi.dkode.co.uk/upload", new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                Log.i("Myresponse", "" + response);
-//                Toast.makeText(context, "" + response, Toast.LENGTH_SHORT).show();
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Log.i("Mysmart", "" + error);
-//                Toast.makeText(context, "" + error, Toast.LENGTH_SHORT).show();
-//            }
-//        }) {
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                Map<String, String> param = new HashMap<>();
-//
-//                String images = getImageString(bitmap);
-//                Log.i("Mynewsam", "" + images);
-//                param.put("image", images);
-//                return param;
-//            }
-//        };
-//
-//        mRequestQueue.add(stringRequest);
-//    }
+    //Update User Info
+    public void update_user(String email, String password, String newEmail, String newPassword, String newFullName, final ApiCallback apiCallback) {
+        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+
+        //Create JSON Object
+        JSONObject request = new JSONObject();
+        try {
+            request.put("email", email);
+            request.put("password", password);
+            request.put("newEmail", newEmail);
+            request.put("newPassword", newPassword);
+            request.put("newFullName", newFullName);
+
+
+        } catch (Exception e) {
+            Log.e("newsapp", "Error during update_user" + e.getMessage());
+        }
+
+        JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(
+                Request.Method.PUT, "http://newsapi.dkode.co.uk/update_user", request,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressDialog.dismiss();
+                        apiCallback.onSuccessResponse(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+                //Error message
+                return;
+            }
+        });
+
+        mRequestQueue.add(mJsonObjectRequest);
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+    }
 
     public static String getImageString(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();

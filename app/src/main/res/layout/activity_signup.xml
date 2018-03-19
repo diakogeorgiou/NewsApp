@@ -96,7 +96,7 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="32dp"
         android:text="Upload Picture"
-        app:layout_constraintStart_toEndOf="@+id/imgProfile"
+        app:layout_constraintStart_toEndOf="@+id/imgviewProfileimage"
         app:layout_constraintTop_toBottomOf="@+id/cbJournalist" />
 
     <Button
@@ -112,7 +112,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/imgProfile"
+        android:id="@+id/imgviewProfileimage"
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:layout_marginStart="32dp"
