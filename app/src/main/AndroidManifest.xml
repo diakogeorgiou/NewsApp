@@ -30,7 +30,8 @@
             android:label="New Article" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".LikedArticlesActivity" />
-        <activity android:name=".FakeArticlesActivity"></activity>
+        <activity android:name=".FakeArticlesActivity" />
+        <activity android:name=".SearchArticleActivity"></activity>
     </application>
 
 </manifest>

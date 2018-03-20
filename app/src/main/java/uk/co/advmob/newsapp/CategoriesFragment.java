@@ -1,6 +1,7 @@
 package uk.co.advmob.newsapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -115,11 +116,23 @@ public class CategoriesFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Category category = (Category) lvCategories.getItemAtPosition(position);
 
-                Toast.makeText(getContext(), category.getDescription(), Toast.LENGTH_SHORT).show();
+                new ApiConnection(getContext()).searchArticlesByCategory(category.getId(), new ApiCallback() {
+                    @Override
+                    public void onSuccessResponse(JSONObject jsonObject) {
+                        try {
+                            if (!jsonObject.getBoolean("error")) {
+                                Intent searchResults = new Intent(getContext(), SearchArticleActivity.class);
+                                searchResults.putExtra("json", jsonObject.toString());
+                                startActivity(searchResults);
+                            } else {
+                                Toast.makeText(getContext(), jsonObject.getString("errorMessage"), Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        } catch (Exception e) {
 
-                //Change Tab
-                BottomNavigationView bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation);
-                bottomNavigationView.setSelectedItemId(R.id.navigation_trending);
+                        }
+                    }
+                });
             }
         });
 

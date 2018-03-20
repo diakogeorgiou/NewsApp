@@ -356,6 +356,64 @@ public class ApiConnection {
         progressDialog.show();
     }
 
+    //Search articles
+    public void searchArticles(String text, final ApiCallback apiCallback) {
+        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+
+        JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET, "http://newsapi.dkode.co.uk/search_articles/" + text, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressDialog.dismiss();
+                        apiCallback.onSuccessResponse(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                //Error message
+                return;
+            }
+        });
+
+        mRequestQueue.add(mJsonObjectRequest);
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+    }
+
+    //Search articles by category
+    public void searchArticlesByCategory(int category_id, final ApiCallback apiCallback) {
+        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+
+        JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET, "http://newsapi.dkode.co.uk/search_articles_by_category/" + String.valueOf(category_id), null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressDialog.dismiss();
+                        apiCallback.onSuccessResponse(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                //Error message
+                return;
+            }
+        });
+
+        mRequestQueue.add(mJsonObjectRequest);
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+    }
+
     //Get read later articles
     public void getReadLaterArticles(int user_id, final ApiCallback apiCallback) {
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
