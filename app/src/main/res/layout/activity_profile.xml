@@ -25,6 +25,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="44dp"
+        android:enabled="false"
         android:text="Upload new photo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imgviewProfileimage"
@@ -47,7 +48,7 @@
         app:layout_constraintVertical_bias="0.06" />
 
     <Button
-        android:id="@+id/bntLikedarticles"
+        android:id="@+id/btnLikedArticles"
         android:layout_width="118dp"
         android:layout_height="60dp"
         android:layout_marginBottom="8dp"

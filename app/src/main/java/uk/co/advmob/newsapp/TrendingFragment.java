@@ -90,7 +90,7 @@ public class TrendingFragment extends Fragment {
                     Type listType = new TypeToken<List<Article>>() {
                     }.getType();
 
-                    //Convert dataObject to Category object
+                    //Convert dataObject to Article object
                     JSONArray jsonArray = jsonObject.getJSONArray("dataObject");
                     ArrayList<Article> articles = new Gson().fromJson(String.valueOf(jsonArray), listType);
 

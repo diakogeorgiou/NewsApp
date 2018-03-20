@@ -129,7 +129,7 @@ public class ApiConnection {
         }
 
         JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(
-                Request.Method.POST, "http://newsapi.dkode.co.uk/like_articles", request,
+                Request.Method.POST, "http://newsapi.dkode.co.uk/liked_articles", request,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -194,7 +194,8 @@ public class ApiConnection {
     }
 
     //Register
-    public void register(String email, String password, String fullName, String userType, final Bitmap profilePicture, final ApiCallback apiCallback) {
+    public void register(String email, String password, String fullName, String userType,
+                         final Bitmap profilePicture, final ApiCallback apiCallback) {
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
 
         //Create JSON Object
@@ -222,6 +223,49 @@ public class ApiConnection {
             public void onErrorResponse(VolleyError error) {
                 progressDialog.dismiss();
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                //Error message
+                return;
+            }
+        });
+
+        mRequestQueue.add(mJsonObjectRequest);
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+    }
+
+    //Update User Info
+    public void update_user(String email, String password, String newEmail, String newPassword,
+                            String newFullName, final Bitmap profilePicture, final ApiCallback apiCallback) {
+        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+
+        //Create JSON Object
+        JSONObject request = new JSONObject();
+        try {
+            request.put("email", email);
+            request.put("password", password);
+            request.put("newEmail", newEmail);
+            request.put("newPassword", newPassword);
+            request.put("newFullName", newFullName);
+            request.put("profilePicture", getImageString(profilePicture));
+
+        } catch (Exception e) {
+            Log.e("newsapp", "Error during update_user" + e.getMessage());
+        }
+
+        JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(
+                Request.Method.PUT, "http://newsapi.dkode.co.uk/update_user", request,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressDialog.dismiss();
+                        apiCallback.onSuccessResponse(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
                 //Error message
                 return;
             }
@@ -312,7 +356,7 @@ public class ApiConnection {
         progressDialog.show();
     }
 
-    //Get articles
+    //Get read later articles
     public void getReadLaterArticles(int user_id, final ApiCallback apiCallback) {
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
 
@@ -399,26 +443,12 @@ public class ApiConnection {
         progressDialog.show();
     }
 
-    //Update User Info
-    public void update_user(String email, String password, String newEmail, String newPassword, String newFullName, final ApiCallback apiCallback) {
+    //Get liked articles
+    public void getLikedArticles(int user_id, final ApiCallback apiCallback) {
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
 
-        //Create JSON Object
-        JSONObject request = new JSONObject();
-        try {
-            request.put("email", email);
-            request.put("password", password);
-            request.put("newEmail", newEmail);
-            request.put("newPassword", newPassword);
-            request.put("newFullName", newFullName);
-
-
-        } catch (Exception e) {
-            Log.e("newsapp", "Error during update_user" + e.getMessage());
-        }
-
         JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(
-                Request.Method.PUT, "http://newsapi.dkode.co.uk/update_user", request,
+                Request.Method.GET, "http://newsapi.dkode.co.uk/liked_articles/" + String.valueOf(user_id), null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -428,8 +458,38 @@ public class ApiConnection {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                progressDialog.dismiss();
                 //Error message
+                progressDialog.dismiss();
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                return;
+            }
+        });
+
+        mRequestQueue.add(mJsonObjectRequest);
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+    }
+
+    //Get fake articles
+    public void getFakeArticles(int user_id, final ApiCallback apiCallback) {
+        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+
+        JsonObjectRequest mJsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET, "http://newsapi.dkode.co.uk/fake_articles/" + String.valueOf(user_id), null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressDialog.dismiss();
+                        apiCallback.onSuccessResponse(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Error message
+                progressDialog.dismiss();
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
                 return;
             }
         });

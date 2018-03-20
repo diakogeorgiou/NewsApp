@@ -72,7 +72,8 @@ public class SignupActivity extends AppCompatActivity {
                 BitmapDrawable drawable = (BitmapDrawable) imgProfile.getDrawable();
                 Bitmap bitmap = drawable.getBitmap();
 
-                new ApiConnection(SignupActivity.this).register(etEmail.getText().toString(), etPassword.getText().toString(), etFullName.getText().toString(), userType, bitmap, new ApiCallback() {
+                new ApiConnection(SignupActivity.this).register(etEmail.getText().toString(),
+                        etPassword.getText().toString(), etFullName.getText().toString(), userType, bitmap, new ApiCallback() {
                     @Override
                     public void onSuccessResponse(JSONObject jsonObject) {
                         //Convert json to response object
