@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -48,6 +49,7 @@ public class ProfileActivity extends AppCompatActivity {
         Picasso.with(this).invalidate("http://newsapi.dkode.co.uk/uploads/" + SingleSignOn.getProfilePicture());
         Picasso.with(this)
                 .load("http://newsapi.dkode.co.uk/uploads/" + SingleSignOn.getProfilePicture())
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                 .into(imgviewProfileimage);
 
         //Liked articles

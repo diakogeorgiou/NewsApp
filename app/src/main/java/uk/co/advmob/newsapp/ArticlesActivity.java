@@ -74,7 +74,7 @@ public class ArticlesActivity extends AppCompatActivity implements TrendingFragm
             builder.setTitle("Article Search");
 
             final EditText input = new EditText(this);
-            input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
             builder.setView(input);
 
             builder.setPositiveButton("SEARCH", new DialogInterface.OnClickListener() {

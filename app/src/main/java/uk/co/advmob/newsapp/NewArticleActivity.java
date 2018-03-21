@@ -97,10 +97,10 @@ public class NewArticleActivity extends AppCompatActivity {
             BitmapDrawable drawable = (BitmapDrawable) imgArticleImage.getDrawable();
             Bitmap image = drawable.getBitmap();
 
-            //Need to be changed using a singleton
+            //Get journalist
             Journalist journalist = new Journalist();
-            journalist.setId(7);
-            journalist.setUsername("Author 1");
+            journalist.setId(SingleSignOn.getUser_id());
+            journalist.setEmail(SingleSignOn.getEmail());
 
             //Get category from spinner
             Category category = (Category) spCategories.getSelectedItem();
